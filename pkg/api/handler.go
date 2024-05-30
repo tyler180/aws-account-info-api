@@ -2,8 +2,9 @@ package api
 
 import (
 	"encoding/json"
-	"my-aws-api/pkg/aws"
 	"net/http"
+
+	"github.com/tyler180/aws-account-info-api/pkg/aws"
 )
 
 func GetS3BucketsHandler(w http.ResponseWriter, r *http.Request) {

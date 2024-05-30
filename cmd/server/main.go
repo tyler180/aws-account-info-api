@@ -2,10 +2,11 @@ package main
 
 import (
 	"log"
-	"my-aws-api/pkg/api"
-	"my-aws-api/pkg/config"
-	"my-aws-api/pkg/logger"
 	"net/http"
+
+	"github.com/tyler180/aws-account-info-api/pkg/api"
+	"github.com/tyler180/aws-account-info-api/pkg/config"
+	"github.com/tyler180/aws-account-info-api/pkg/logger"
 
 	"github.com/gorilla/mux"
 )

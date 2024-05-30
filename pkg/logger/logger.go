@@ -2,26 +2,27 @@ package logger
 
 import (
 	"go.uber.org/zap"
+	"go.uber.org/zap/zapcore"
 )
 
 func NewLogger(logLevel string) *zap.SugaredLogger {
 	config := zap.NewProductionConfig()
-	config.Level.SetLevel(parseLogLevel(logLevel))
+	config.Level = zap.NewAtomicLevelAt(parseLogLevel(logLevel))
 	logger, _ := config.Build()
 	return logger.Sugar()
 }
 
-func parseLogLevel(logLevel string) zap.AtomicLevel {
+func parseLogLevel(logLevel string) zapcore.Level {
 	switch logLevel {
 	case "debug":
-		return zap.NewAtomicLevelAt(zap.DebugLevel)
+		return zapcore.DebugLevel
 	case "info":
-		return zap.NewAtomicLevelAt(zap.InfoLevel)
+		return zapcore.InfoLevel
 	case "warn":
-		return zap.NewAtomicLevelAt(zap.WarnLevel)
+		return zapcore.WarnLevel
 	case "error":
-		return zap.NewAtomicLevelAt(zap.ErrorLevel)
+		return zapcore.ErrorLevel
 	default:
-		return zap.NewAtomicLevelAt(zap.InfoLevel)
+		return zapcore.InfoLevel
 	}
 }
