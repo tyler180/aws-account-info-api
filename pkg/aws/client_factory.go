@@ -6,11 +6,13 @@ import (
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/config"
+	"github.com/aws/aws-sdk-go-v2/credentials/stscreds"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/aws/aws-sdk-go-v2/service/ec2"
 	"github.com/aws/aws-sdk-go-v2/service/iam"
 	"github.com/aws/aws-sdk-go-v2/service/organizations"
 	"github.com/aws/aws-sdk-go-v2/service/s3"
+	"github.com/aws/aws-sdk-go-v2/service/sts"
 )
 
 type AWSClient interface{}
@@ -19,11 +21,17 @@ type AWSClientFactory struct {
 	cfg aws.Config
 }
 
-func NewAWSClientFactory(ctx context.Context) (*AWSClientFactory, error) {
-	cfg, err := config.LoadDefaultConfig(ctx, config.WithRegion("us-west-2"))
+func NewAWSClientFactory(ctx context.Context, roleARN string) (*AWSClientFactory, error) {
+	cfg, err := config.LoadDefaultConfig(ctx)
 	if err != nil {
 		return nil, err
 	}
+
+	if roleARN != "" {
+		stsClient := sts.NewFromConfig(cfg)
+		cfg.Credentials = stscreds.NewAssumeRoleProvider(stsClient, roleARN)
+	}
+
 	return &AWSClientFactory{cfg: cfg}, nil
 }
 

@@ -8,7 +8,8 @@ import (
 )
 
 func GetS3BucketsHandler(w http.ResponseWriter, r *http.Request) {
-	factory, err := aws.NewAWSClientFactory(r.Context())
+	roleARN := r.Header.Get("X-Role-ARN")
+	factory, err := aws.NewAWSClientFactory(r.Context(), roleARN)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -30,7 +31,8 @@ func GetS3BucketsHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetDynamoDBTablesHandler(w http.ResponseWriter, r *http.Request) {
-	factory, err := aws.NewAWSClientFactory(r.Context())
+	roleARN := r.Header.Get("X-Role-ARN")
+	factory, err := aws.NewAWSClientFactory(r.Context(), roleARN)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -52,7 +54,8 @@ func GetDynamoDBTablesHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func DescribeEC2InstancesHandler(w http.ResponseWriter, r *http.Request) {
-	factory, err := aws.NewAWSClientFactory(r.Context())
+	roleARN := r.Header.Get("X-Role-ARN")
+	factory, err := aws.NewAWSClientFactory(r.Context(), roleARN)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -74,7 +77,8 @@ func DescribeEC2InstancesHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func ListOrganizationAccountsHandler(w http.ResponseWriter, r *http.Request) {
-	factory, err := aws.NewAWSClientFactory(r.Context())
+	roleARN := r.Header.Get("X-Role-ARN")
+	factory, err := aws.NewAWSClientFactory(r.Context(), roleARN)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -96,7 +100,8 @@ func ListOrganizationAccountsHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func ListIAMUsersHandler(w http.ResponseWriter, r *http.Request) {
-	factory, err := aws.NewAWSClientFactory(r.Context())
+	roleARN := r.Header.Get("X-Role-ARN")
+	factory, err := aws.NewAWSClientFactory(r.Context(), roleARN)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
